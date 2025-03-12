@@ -10,7 +10,7 @@ import esewaLogo from "../../assets/esewa.png";
 import codLogo from "../../assets/cod.png";
 
 const Proceed = () => {
-  const { getTotalAmount, cartData } = useContext(StoreContext);
+  const { getTotalAmount, cartData ,userEmail,url,setCartData} = useContext(StoreContext);
   const totalAmount = getTotalAmount();
 
   const [name, setName] = useState("");
@@ -31,6 +31,8 @@ const Proceed = () => {
     const items = Object.fromEntries(
       Object.entries(cartData).map(([productId, quantity]) => [productId, quantity])
     );
+    
+    console.log(userEmail)
 
     const orderData = {
       order_id: orderId,
@@ -40,14 +42,15 @@ const Proceed = () => {
       amount: totalAmount + 100,
       region,
       location,
-      orderedBy: "USER_ID_HERE",
+      orderedBy:userEmail,
       paymentMethod,
     };
+    console.log(orderData)
 
     try {
       if (paymentMethod === "eSewa") {
         const response = await axios.post(
-          "http://localhost:4000/esewa/payment-initiate",
+         url+"/esewa/payment-initiate",
           orderData
         );
 
@@ -57,19 +60,23 @@ const Proceed = () => {
         }
       } else if (paymentMethod === "COD") {
         const response = await axios.post(
-          "http://localhost:4000/cod/proceed-order",
+          url+"/cod/proceed-order",
           orderData
         );
 
         if (response.status === 200) {
           toast.success("Order placed successfully!", { position: "top-right" });
-          window.location.href= "http://localhost:5173"
+          
+          window.location.href= "http://localhost:5173/"
+          
         }
       }
     } catch (error) {
       toast.error("Error processing order.", { position: "top-right" });
     } finally {
       setIsLoading(false);
+     
+      
     }
   };
 

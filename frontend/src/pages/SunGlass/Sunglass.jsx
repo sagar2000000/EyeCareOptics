@@ -1,10 +1,12 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import './Sunglass.css';
 import { assets, products } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
+import { StoreContext } from '../../context/StoreContext';
 
 const Sunglass = () => {
   const navigate = useNavigate();
+  const {product_list,url} = useContext(StoreContext)
 
   const onClickHandler = (name) => {
     navigate(`/product/${name}`);
@@ -18,7 +20,7 @@ const Sunglass = () => {
       <h1>Sunglasses</h1>
 
       <div className="product-list">
-        {products.map((product, index) => {
+        {product_list.map((product, index) => {
           if (product.category === 'sunglass')
             return (
               <div
@@ -26,7 +28,7 @@ const Sunglass = () => {
                 key={index}
                 onClick={() => onClickHandler(product.name)}
               >
-                <img src={product.image} alt={product.name} />
+                <img src={url+"/images/"+product.image} alt={product.name} />
                 <p className="name">{product.name}</p>
                 <p className="price">Rs {product.price}</p>
               </div>

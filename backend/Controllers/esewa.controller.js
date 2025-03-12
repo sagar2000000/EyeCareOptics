@@ -1,7 +1,6 @@
 import { EsewaPaymentGateway, EsewaCheckStatus } from "esewajs";
-import orderModel from "../Models/order.model.js"; // Correct import for MongoDB model
-
-// Initiate payment with eSewa
+import orderModel from "../Models/order.model.js";
+import UserModel from "../Models/user.model.js";
 const EsewaInitiatePayment = async (req, res) => {
   const { amount, fullname, items, orderedBy, region, location, phone, order_id } = req.body;
   console.log(amount, fullname, items, orderedBy, region, location, phone, order_id);
@@ -32,8 +31,14 @@ const EsewaInitiatePayment = async (req, res) => {
         phone,
         paymentMethod: "eSewa",
       });
-
       await order.save();
+      await UserModel.findOneAndUpdate(
+        { email: orderedBy },
+        { $set: { cartData: {} } }, 
+        { new: true } 
+      );
+     
+      
       console.log("Transaction passed");
 
       return res.send({
@@ -46,19 +51,18 @@ const EsewaInitiatePayment = async (req, res) => {
   }
 };
 
-// Check payment status
 const paymentStatus = async (req, res) => {
   const { order_id } = req.body;
 
   try {
-    // Find the transaction by order ID
+    
     const order = await orderModel.findOne({ order_id });
 
     if (!order) {
       return res.status(404).json({ message: "Transaction not found" });
     }
 
-    // Check payment status with eSewa
+ 
     const paymentStatusCheck = await EsewaCheckStatus(
       order.amount,
       order.order_id,
@@ -69,10 +73,11 @@ const paymentStatus = async (req, res) => {
     console.log("Payment Status Check:", paymentStatusCheck.status);
 
     if (paymentStatusCheck.status === 200) {
-      // Update the order status in the database
+     
       order.status = paymentStatusCheck.data.status;
-      await order.save();  // Save updated order status
-
+      await order.save();  
+   
+      
       return res.status(200).json({ message: "Transaction status updated successfully" });
     } else {
       return res.status(400).json({ message: "Payment verification failed" });

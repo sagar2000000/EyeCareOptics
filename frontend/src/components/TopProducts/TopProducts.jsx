@@ -1,10 +1,12 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect,useContext } from 'react';
 import './TopProducts.css';
 import { assets } from '../../assets/assets';
 import { products } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
+import { StoreContext } from '../../context/StoreContext';
 
 const TopProducts = () => {
+  const {product_list,url} = useContext(StoreContext)
   const navigate = useNavigate()
   const topItemsRef = useRef(null);
 
@@ -48,7 +50,7 @@ const TopProducts = () => {
     }, 500);
   };
 
-  const topProducts = products.filter(item => item.top === "yes");
+  const topProducts = product_list.filter(item => item.top === true);
 
   return (
     <div className='top-container'>
@@ -62,7 +64,7 @@ const TopProducts = () => {
         <div className="top-items" ref={topItemsRef}>
           {topProducts.map((item, index) => (
             <div className="item" key={index} onClick={()=>onClickHandler(item.name)}> 
-              <img src={item.image} alt={item.name} />
+              <img src={url+"/images/"+item.image}alt={item.name} />
               <p>{item.name}</p>
               <h4>Rs {item.price}</h4>
             </div>

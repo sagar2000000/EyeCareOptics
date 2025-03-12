@@ -9,7 +9,7 @@ export const dbConnection = async () =>{
    })
  
   } catch (error) {
-    console.log('error in db con')
+    console.log('error in db con',error)
   }
 
 

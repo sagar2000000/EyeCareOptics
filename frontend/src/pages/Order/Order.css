@@ -1,0 +1,114 @@
+/* General container styling */
+.order-container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Table Styling */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.order-table th,
+.order-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.order-table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+/* Inner Table for Items */
+.inner-table {
+  width: 100%;
+}
+
+.inner-table td {
+  border: none;
+  padding: 5px;
+  text-align: left;
+}
+
+/* Product Image Styling */
+.product-image {
+  width: 60px;
+  height: auto;
+  border-radius: 5px;
+  display: block;
+  margin: auto;
+}
+
+/* Order Status Styling */
+.status {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status.pending {
+  color: orange;
+}
+
+.status.complete {
+  color: green;
+}
+
+.status.failed {
+  color: red;
+}
+
+/* Delivery Status Styling */
+.delivery {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.delivery.processing {
+  color: blue;
+}
+
+.delivery.shipped {
+  color: purple;
+}
+
+.delivery.delivered {
+  color: green;
+}
+
+.delivery.cancelled {
+  color: red;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .order-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .order-table th,
+  .order-table td {
+    font-size: 12px;
+    padding: 5px;
+  }
+
+  .product-image {
+    width: 50px;
+  }
+}

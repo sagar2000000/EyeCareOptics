@@ -1,11 +1,94 @@
-import React from 'react'
-import './Order.css'
-const Order = () => {
-  return (
-    <div>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, dicta! Ea delectus necessitatibus accusamus iure numquam doloremque temporibus, nam ipsa quisquam molestiae nesciunt omnis distinctio sunt nihil. Officiis officia dolore excepturi dolor iusto dolorum, possimus quos nostrum alias quo temporibus cumque. Dignissimos, aut ab autem alias totam laudantium odio ut iure voluptatum earum similique! Vero cumque optio animi soluta, commodi aspernatur itaque deleniti culpa iste quos nisi dolorem eaque, voluptas fugit modi quasi fugiat atque ut placeat obcaecati consectetur exercitationem sunt reprehenderit. Saepe, quaerat expedita. Alias praesentium reprehenderit iste tempora maxime non veritatis minima fuga, ipsum amet atque quibusdam expedita pariatur cumque sapiente necessitatibus ratione dignissimos quod consequuntur unde excepturi aspernatur provident voluptate assumenda. Cupiditate molestias, a sunt nam consequatur, laboriosam commodi deserunt animi eum id maiores quidem soluta reiciendis labore repellat itaque. Nemo ex dignissimos quam optio quisquam debitis modi ea. Accusantium, tempora dolore. Impedit, omnis quisquam. Iusto, itaque. Reiciendis vel totam tempore corrupti veniam similique eos possimus aspernatur fugiat eveniet doloremque omnis, voluptatem, dolor nobis sed! Vitae cupiditate beatae quas reiciendis sit magni, corporis veritatis amet exercitationem enim placeat facere, voluptatibus quos maxime libero, officia eaque vero quo ipsum earum repudiandae nulla totam? Id sunt maxime sed excepturi voluptates ea doloremque nesciunt aperiam veritatis laudantium! Deleniti nisi earum error nulla quis quae! Consequuntur quis quo libero assumenda perferendis error voluptatibus inventore, in quibusdam soluta dicta debitis exercitationem amet quaerat vel quasi fugiat eos odio doloribus perspiciatis dolorum recusandae ex! Velit dolor nisi quod assumenda repellat delectus consectetur amet accusamus fuga? At deleniti, necessitatibus, quas nobis ipsa dolores quidem, sit tenetur voluptatibus expedita quae vitae ipsam eum enim fugit odio inventore dicta porro placeat ad cupiditate. Ut tempora atque recusandae possimus porro dignissimos est facere doloribus aliquid blanditiis dolorem consequatur illo dolore quis aperiam voluptas odit, in eos obcaecati repellendus repudiandae error beatae animi! Non tenetur temporibus, corrupti eveniet ut provident sapiente quia, quisquam totam doloremque accusamus sed qui earum veritatis error voluptatem assumenda molestias mollitia nulla unde nemo sequi? Eos atque animi aut perspiciatis quisquam! Asperiores error doloremque aperiam? A fugiat recusandae beatae rerum temporibus porro aperiam quo repudiandae? Tenetur officiis aspernatur blanditiis ea earum, odio, optio nostrum quibusdam labore eaque fuga explicabo! Voluptas in nobis saepe nesciunt itaque quisquam sed tenetur expedita! Laboriosam quae culpa ratione nisi ullam, dignissimos mollitia, eveniet aliquam facilis quod, officiis iusto quas debitis beatae vitae alias autem quaerat illum! Asperiores illo reiciendis enim. Eos adipisci reprehenderit, voluptas vel maxime et, quos sapiente enim perferendis, alias eum. Delectus accusamus eius accusantium nihil sapiente, voluptas nemo repudiandae ratione autem nisi voluptates blanditiis quibusdam doloribus sint maiores omnis ducimus ea ab nostrum itaque. Tenetur laboriosam quam nemo nobis dolore earum ullam ipsa sed ea hic amet modi maxime praesentium debitis magni eveniet laudantium ab corporis neque, rerum consequuntur qui odio? Consequuntur maiores, soluta possimus nesciunt provident ipsam sed fugit nostrum, reprehenderit in repellat fuga quas atque sequi tenetur labore quibusdam. Placeat beatae iste ipsa quas fugiat, sapiente praesentium voluptas numquam omnis quae ab quibusdam, expedita, molestiae similique voluptatum. Deleniti quisquam, impedit aut officiis soluta blanditiis eum, commodi velit nam quis quae porro voluptatum amet odit explicabo veritatis nesciunt labore corrupti, veniam eveniet voluptates totam necessitatibus tempore provident! Cumque consectetur qui commodi similique ducimus dignissimos iure! Quia eum numquam cupiditate. Odit nam ipsam praesentium ducimus doloribus quod harum at vel, deleniti deserunt in, modi fuga veniam.</p>
-    </div>
-  )
-}
+import React, { useEffect, useState, useContext } from "react";
+import "./Order.css";
+import { StoreContext } from "../../context/StoreContext";
+import axios from "axios";
 
-export default Order
+const Order = () => {
+  const [orders, setOrders] = useState([]);
+  const { product_list, url, userEmail } = useContext(StoreContext);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.post("http://localhost:4000/order/user-orders", { userEmail });
+
+        // Sort orders in descending order based on date (newest first)
+        const sortedOrders = response.data.userOrder.sort(
+          (a, b) => new Date(b.date) - new Date(a.date)
+        );
+
+        setOrders(sortedOrders);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    fetchOrders();
+  }, [userEmail]);
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleString();
+  };
+
+  return (
+    <div className="order-container">
+      <h2>User Orders</h2>
+      {orders.length === 0 ? (
+        <p>No orders found.</p>
+      ) : (
+        <div className="table-wrapper">
+          <table className="order-table">
+            <thead>
+              <tr>
+                <th>SN</th>
+                <th>Items</th>
+                <th>Amount (Rs)</th>
+                <th>Payment Method</th>
+                <th>Payment</th>
+                <th>Delivery</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order, index) => {
+                const orderItems = Object.entries(order.items).filter(([_, quantity]) => quantity > 0);
+
+                return orderItems.map(([productId, quantity], itemIndex) => {
+                  const product = product_list.find((p) => p._id === productId);
+                  if (!product) return null;
+
+                  return (
+                    <tr key={`${order._id}-${productId}`}>
+                      {itemIndex === 0 && <td rowSpan={orderItems.length}>{index + 1}</td>}
+                      <td>
+                        <div className="item">
+                          <img className="product-image" src={`${url}/images/${product.image}`} alt={product.name} />
+                          <p>{product.name} (x{quantity})</p>
+                        </div>
+                      </td>
+                      {itemIndex === 0 && (
+                        <>
+                          <td rowSpan={orderItems.length}>{order.amount}</td>
+                          <td rowSpan={orderItems.length}>{order.paymentMethod}</td>
+                          <td rowSpan={orderItems.length} className={`status ${order.status.toLowerCase()}`}>
+                            {order.status}
+                          </td>
+                          <td rowSpan={orderItems.length} className={`delivery ${order.delivery.toLowerCase()}`}>
+                            {order.delivery}
+                          </td>
+                          <td rowSpan={orderItems.length}>{formatDate(order.date)}</td>
+                        </>
+                      )}
+                    </tr>
+                  );
+                });
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Order;

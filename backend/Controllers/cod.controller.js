@@ -1,5 +1,6 @@
 
 import orderModel from "../Models/order.model.js";
+import UserModel from "../Models/user.model.js";
 
 const CodController = async (req, res) => {
   const {
@@ -29,6 +30,12 @@ const CodController = async (req, res) => {
      
     });
     await order.save();
+    await UserModel.findOneAndUpdate(
+      { email: orderedBy }, // Assuming `orderedBy` contains the user's email
+      { $set: { cartData: {} } }, // Correct update format
+      { new: true } // Returns the updated document
+    );
+    
     console.log("order saved");
     return res.status(200).json("Order placed Successfully")
   } catch (error) {

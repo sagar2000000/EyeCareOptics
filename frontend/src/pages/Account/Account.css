@@ -4,33 +4,38 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
-  background-color: #f0f2f5;
+  min-height: 100vh;
+  background-color: #e9f7f9;
   padding: 20px;
   margin-top: 120px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .login-container, .profile-container {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 15px;
   padding: 30px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: all 0.3s ease-in-out;
 }
 
+
+
 .profile-header {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #333;
+  font-size: 28px;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
 .profile-welcome {
   font-size: 18px;
-  color: #555;
-  margin-bottom: 20px;
+  color: #7f8c8d;
+  margin-bottom: 30px;
 }
 
 .profile-options {
@@ -40,55 +45,98 @@
 
 .profile-options li {
   font-size: 18px;
-  color: #555;
-  padding: 10px;
+  color: #7f8c8d;
+  list-style: none;
+  padding: 12px 0;
   cursor: pointer;
-  transition: color 0.3s ease;
+  border-bottom: 1px solid #ddd;
+  transition: color 0.3s ease, padding-left 0.3s ease;
 }
-
+#Orders{
+ 
+  text-decoration: none;
+}
 .profile-options li:hover {
-  color: #4a90e2;
+  color: #3498db;
+  padding-left: 10px;
 }
 
 .input-field {
   width: 100%;
-  padding: 12px;
+  padding: 15px;
   margin: 12px 0;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 16px;
+  background-color: #f7f9fb;
   box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input-field:focus {
-  border-color: #4a90e2;
+  border-color: #3498db;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
   outline: none;
 }
 
 .submit-button {
   width: 100%;
-  padding: 12px;
+  padding: 15px;
   margin-top: 10px;
-  background-color: #4a90e2;
+  background: linear-gradient(135deg, #3498db, #8e44ad);
   color: white;
   font-size: 16px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .submit-button:hover {
-  background-color: #357ab8;
+  background: linear-gradient(135deg, #2980b9, #9b59b6);
+  transform: translateY(-5px);
 }
 
 .toggle-text {
   margin-top: 16px;
   font-size: 14px;
-  color: #4a90e2;
+  color: #3498db;
   cursor: pointer;
 }
 
 .toggle-text:hover {
   text-decoration: underline;
+  color: #2980b9;
 }
+
+
+.profile-container {
+  background: linear-gradient(135deg, #fff, #f2f2f2);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.profile-header {
+  font-size: 30px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.profile-welcome {
+  font-size: 20px;
+  color: #34495e;
+  margin-bottom: 20px;
+}
+
+.profile-options li {
+  color: #34495e;
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+.profile-options li:hover {
+  color: #8e44ad;
+  padding-left: 10px;
+}
+

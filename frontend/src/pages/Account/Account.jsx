@@ -1,57 +1,124 @@
 import React, { useState, useContext } from 'react';
 import './Account.css';
+import axios from 'axios';
 import { StoreContext } from '../../context/StoreContext';
+import { toast, ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
+import { Link } from 'react-router-dom';
 
 const Account = () => {
+  const [currState, setCurrState] = useState('Login');
+  const { token, setToken,setUserEmail,url,userEmail} = useContext(StoreContext);
+  const [data, setData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
 
-  const [login, setLogin] = useState(false);
-  const [name, setName] = useState("Sagar");
-  const [loggedIn,setloggedIn] = useState(true)
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+    setData((prevData) => {
+      const updatedData = { ...prevData, [name]: value };
+      if (name === "email") {
+        setUserEmail(value);
+        localStorage.setItem("userEmail", value); 
+      }
+      return updatedData;
+    });
+  };
+
+  const onLogin = async (event) => {
+    event.preventDefault();
+    let newUrl = url;
+    if (currState === 'Login') {
+      newUrl += '/user/login';
+    } else {
+      newUrl += '/user/register';
+    }
+
+    try {
+      const response = await axios.post(newUrl, data);
+      console.log(response.data);
+      if (response.data.success) {
+        setToken(response.data.token);
+        localStorage.setItem('token', response.data.token);
+        toast.success(currState === 'Login' ? 'Login Successful' : 'Registration Successful');
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log('Error during login/register:', error);
+      toast.error('An error occurred. Please try again!');
+    }
+  };
+
+  const toggleForm = () => {
+    setCurrState(currState === 'Login' ? 'Register' : 'Login');
+  };
+
+  const onLogout = () => {
+    setToken(null);
+    localStorage.removeItem('token');
+    toast.success('Logged out successfully');
+  };
 
   return (
     <div className="account-div">
-      {loggedIn ? (
-        <div className="profile-container">
-          <center className="profile-header">My Account</center>
-          <center className="profile-welcome">Welcome, {name}</center>
-          <ul className="profile-options">
-            <li>Orders</li>
-            <li>Logout</li>
-          </ul>
-        </div>
-      ) : (
-        <div className="login-container">
-          <form>
-            {!login && (
+      <div className="profile-container">
+        {token ? (
+          <>
+            <center className="profile-header">My Account</center>
+            <center className="profile-welcome">Welcome</center>
+            <ul className="profile-options">
+              <Link to ="/orders" id='Orders'><li>Orders</li></Link>
+              <li onClick={onLogout}>Logout</li>
+            </ul>
+          </>
+        ) : (
+          <div className="login-container">
+            <form onSubmit={onLogin}>
+              {currState === 'Register' && (
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter Your Fullname"
+                  className="input-field"
+                  value={data.name}
+                  onChange={onChangeHandler}
+                />
+              )}
               <input
-                type="text"
-                placeholder="Enter Your Fullname"
+                type="email"
+                name="email"
+                placeholder="Enter Your Email"
                 className="input-field"
+                value={data.email}
+                onChange={onChangeHandler}
               />
-            )}
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter Your Email"
-              className="input-field"
-            />
-            <input
-              type="password"
-              placeholder="Enter Your Password"
-              className="input-field"
-            />
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter Your Password"
+                className="input-field"
+                value={data.password}
+                onChange={onChangeHandler}
+              />
 
-            <button type="submit" className="submit-button">
-              {login ? "Login" : "Register"}
-            </button>
-          </form>
-          <p className="toggle-text" onClick={() => setLogin(!login)}>
-            {login
-              ? "Don't have an account? Click here to register"
-              : "Already have an account? Click here to login"}
-          </p>
-        </div>
-      )}
+              <button type="submit" className="submit-button">
+                {currState === 'Login' ? 'Login' : 'Register'}
+              </button>
+            </form>
+
+            <p className="toggle-text" onClick={toggleForm}>
+              {currState === 'Login'
+                ? "Don't have an account? Click here to register"
+                : "Already have an account? Click here to login"}
+            </p>
+          </div>
+        )}
+      </div>
+
+      <ToastContainer /> {/* Make sure this is inside the component */}
     </div>
   );
 };

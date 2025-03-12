@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["eSewa", "COD"], // Only allow these values
+      enum: ["eSewa", "COD"],
       required: true,
     },
     status: {
@@ -50,9 +50,15 @@ const orderSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    delivery:{
+      type:String,
+      enum:["Processing","Completed"],
+      default:"Processing"
+    }
   },
   { timestamps: true }
 );
 
 const orderModel = mongoose.models.order || mongoose.model("order", orderSchema);
 export default orderModel;
+

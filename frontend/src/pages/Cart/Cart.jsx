@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import "./Cart.css";
 
 const CartPage = () => {
-  const { cartData, removeFromCart, getTotalAmount } = useContext(StoreContext);
+  const { cartData, removeFromCart, getTotalAmount,product_list,url,} = useContext(StoreContext);
   const [removingItem, setRemovingItem] = useState(null); 
 
   const handleRemove = (_id) => {
@@ -37,13 +37,13 @@ const CartPage = () => {
             <tbody>
               {cartItems.map((_id) => {
                 // Ensure type consistency
-                const product = products.find((prod) => String(prod._id) === String(_id));
+                const product = product_list.find((prod) => String(prod._id) === String(_id));
                 if (!product) return null;
 
                 return (
                   <tr key={_id} className={removingItem === _id ? "fade-out" : ""}>
                     <td>
-                      <img src={product.image} alt={product.name} />
+                      <img src={url+"/images/"+product.image} alt={product.name} />
                       {product.name}
                     </td>
                     <td>{product.price} Rs</td>
