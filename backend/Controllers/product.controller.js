@@ -103,4 +103,58 @@ const removeProduct = async (req, res) => {
   }
 };
 
-export {addProduct,listProduct,removeProduct}
+
+const increaseStock = async (req, res) => {
+  const { _id, count } = req.body;
+
+  try {
+    if (count && _id) {
+   
+      const product = await Product.findById(_id);
+      if (!product) return res.status(404).json({ message: "Product not found" });
+
+      
+      const updatedStock = product.stock + count;
+
+      
+      await Product.findByIdAndUpdate(_id, { stock: updatedStock });
+
+      return res.status(200).json({ message: "Stock updated successfully", stock: updatedStock });
+    } else {
+      return res.status(400).json({ message: "Missing _id or count" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+const decreaseStock = async (req, res) => {
+  const { _id, count } = req.body;
+
+  try {
+    if (count && _id) {
+      const product = await Product.findById(_id);
+      if (!product) return res.status(404).json({ message: "Product not found" });
+
+      
+      if (product.stock < count) {
+        return res.status(400).json({ message: "Insufficient stock" });
+      }
+
+      const updatedStock = product.stock - count;
+
+      await Product.findByIdAndUpdate(_id, { stock: updatedStock });
+
+      return res.status(200).json({ message: "Stock decreased successfully", stock: updatedStock });
+    } else {
+      return res.status(400).json({ message: "Missing _id or count" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+export {addProduct,listProduct,removeProduct,increaseStock,decreaseStock}

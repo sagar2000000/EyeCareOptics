@@ -1,0 +1,137 @@
+.add {
+  max-width: 70%;
+  margin: auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Image Upload */
+.add-image-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.add-image-upload img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px dashed #007bff;
+  padding: 5px;
+  transition: 0.3s ease;
+}
+
+.add-image-upload img:hover {
+  border-color: #0056b3;
+}
+
+/* Input Fields */
+input,
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Flexbox for form sections */
+.add-category-price,
+.add-frame-details {
+  display: flex;
+  gap: 15px;
+}
+
+/* Buttons */
+.add-btn {
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+  text-transform: uppercase;
+}
+
+.add-btn:hover {
+  background: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .add {
+    max-width: 85%;
+  }
+
+  .add-category-price,
+  .add-frame-details {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .add {
+    max-width: 95%;
+    padding: 15px;
+  }
+
+  .add-image-upload img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .add-btn {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .add-category-price,
+  .add-frame-details {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .add-image-upload img {
+    width: 80px;
+    height: 80px;
+  }
+
+  input,
+  select {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .add-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

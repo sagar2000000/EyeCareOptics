@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { base64Decode } from "esewajs";
 import axios from "axios";
+import "./Success.css";
 
 const Success = () => {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -9,17 +10,10 @@ const Success = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get the token from the URL search params
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("data");
-
-  // Decode the JWT without verifying the signature
   const decoded = base64Decode(token);
 
-  // Log decoded values to debug
-  console.log("Decoded token:", decoded);
-
-  // Function to verify payment status
   const verifyPaymentAndUpdateStatus = async () => {
     if (!decoded || !decoded.transaction_uuid) {
       console.error("Invalid token or missing transaction UUID");
@@ -28,56 +22,97 @@ const Success = () => {
     }
 
     try {
-      // Send the order ID (transaction UUID) to the backend to verify payment
       const response = await axios.post(
-        "http://localhost:4000/esewa/payment-status", 
-        { order_id: decoded.transaction_uuid } // Send order_id to the backend
+        "http://localhost:4000/esewa/payment-status",
+        { order_id: decoded.transaction_uuid }
       );
 
-      // Check the response status
       if (response.status === 200) {
-        setIsLoading(false);
         setIsSuccess(true);
       } else {
         throw new Error("Payment verification failed");
       }
     } catch (error) {
-      console.error("Error initiating payment verification:", error);
+      console.error("Error verifying payment:", error);
+    } finally {
       setIsLoading(false);
     }
   };
 
-  // Call verify payment function on component mount
   useEffect(() => {
     verifyPaymentAndUpdateStatus();
   }, []);
 
-  // Loading state
-  if (isLoading && !isSuccess) return <>Loading...</>;
+  if (isLoading && !isSuccess) return <p className="loading">Loading...</p>;
 
-  // Error handling if payment verification fails
   if (!isLoading && !isSuccess) {
     return (
-      <>
-        <h1>Oops!.. Error occurred while confirming payment</h1>
-        <h2>We will resolve it soon.</h2>
-        <button onClick={() => navigate("/")} className="go-home-button">
+      <div className="container">
+        <h1 className="error-title">Oops! Error verifying payment</h1>
+        <p className="error-text">We’ll resolve it soon. Please try again later.</p>
+        <button onClick={() => navigate("/")} className="button">
           Go to Homepage
         </button>
-      </>
+      </div>
     );
   }
 
-  // Success page if payment is verified
   return (
-    <div>
-      <h1>Payment Successful!</h1>
-      <p>Thank you for your payment. Your transaction was successful.</p>
-      <button onClick={() => navigate("/")} className="go-home-button">
-        Go to Homepage
-      </button>
+    <div className="container">
+      <header className="header">
+        <div className="logo">
+          <MountainIcon className="icon" />
+          <span className="sr-only">Acme Inc</span>
+        </div>
+      </header>
+      <main className="main">
+        <CircleCheckIcon className="check-icon" />
+        <h1 className="success-title">Payment Successful</h1>
+        <p className="success-text">Thank you for your purchase!</p>
+        <button onClick={() => navigate("/")} className="button">
+          Return to Homepage
+        </button>
+      </main>
+      <footer className="footer">
+        <p>&copy; 2024 Acme Inc. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
+
+function CircleCheckIcon({ className }) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="green"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
+
+function MountainIcon({ className }) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="black"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+    </svg>
+  );
+}
 
 export default Success;

@@ -60,13 +60,14 @@ console.log(getTotalAmount())
     setProductList(response.data.data);
     console.log(response.data.data)
    
-  };
+  };  
   const loadCartData = async (token) => {
     const response = await axios.post(url+"/cart/get",{},{headers:{token}});
    const cartData=response.data.cartData
 
     setCartData(cartData);
   };
+ 
 
   useEffect(() => {
     async function loadData() {

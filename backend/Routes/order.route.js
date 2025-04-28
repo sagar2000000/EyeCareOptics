@@ -1,5 +1,5 @@
 import express from "express";
-import { listOrders,userOrders } from "../Controllers/orders.controller.js";
+import { listOrders,userOrders,updateDelivery } from "../Controllers/orders.controller.js";
 
 
 
@@ -7,6 +7,7 @@ import { listOrders,userOrders } from "../Controllers/orders.controller.js";
 
 orderRouter.get("/list-orders",listOrders);
 orderRouter.post("/user-orders",userOrders);
+orderRouter.post("/update-delivery",updateDelivery);
 
 
 

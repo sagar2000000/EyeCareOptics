@@ -14,6 +14,7 @@ import Order from './pages/Order/Order';
 import Proceed from './components/Payment/Proceed';
 import Failure from './components/Payment/Failure';
 import Success from './components/Payment/Success';
+import SuccessUI from './components/Payment/CodSucess';
 
 function App() {
   
@@ -30,10 +31,12 @@ function App() {
       <Route path='/cart' element={<Cart/>}></Route>
       <Route path='/proceed-to-payment' element={<Proceed/>}></Route>
       <Route path='/payment-failure' element={<Failure/>}></Route>
-      <Route path='/payment-success' element={<Success/>}></Route>
-      
+      <Route path='/' element={<Success/>}></Route>
+      payment-success
       <Route path='/account' element={<Account/>}></Route>
       <Route path='/orders' element={<Order/>}></Route>
+      <Route path='/cod-success' element={<SuccessUI/>}></Route>
+      
      
     </Routes>
    

@@ -181,3 +181,19 @@
     font-size: 1rem;
   }
 }
+
+
+.cart-wrapper {
+  position: relative;
+}
+
+.cart-notification-dot {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  z-index: 10;
+}

@@ -1,6 +1,7 @@
 import { EsewaPaymentGateway, EsewaCheckStatus } from "esewajs";
 import orderModel from "../Models/order.model.js";
 import UserModel from "../Models/user.model.js";
+import { products } from "../Models/product.model.js";
 const EsewaInitiatePayment = async (req, res) => {
   const { amount, fullname, items, orderedBy, region, location, phone, order_id } = req.body;
   console.log(amount, fullname, items, orderedBy, region, location, phone, order_id);
@@ -37,6 +38,15 @@ const EsewaInitiatePayment = async (req, res) => {
         { $set: { cartData: {} } }, 
         { new: true } 
       );
+      for (const [productId, quantity] of Object.entries(items)) {
+        await products.findByIdAndUpdate(
+            productId,
+            { $inc: { stock: -quantity } }, // Decrease stock by ordered quantity
+            { new: true }
+        );
+    }
+
+    console.log("Order placed, cart cleared, and stock updated successfully!");
      
       
       console.log("Transaction passed");

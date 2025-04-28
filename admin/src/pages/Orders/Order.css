@@ -1,0 +1,150 @@
+/* Orders Container */
+.orders-container {
+  max-width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.orders-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Table Styles */
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.orders-table thead {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.orders-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.orders-table tbody tr:hover {
+  background-color: #e0e0e0;
+  transition: background 0.3s;
+}
+
+/* Order Item List */
+.order-items-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+}
+
+/* Fixed Image Size */
+.order-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover; /* Prevent distortion */
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+/* Order Status */
+.order-status {
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 5px;
+  text-transform: capitalize;
+}
+
+.order-status.pending {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.order-status.completed {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.order-status.cancelled {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Delivery Button */
+.delivery-button {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.delivery-button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .orders-table th,
+  .orders-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .order-item img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .orders-container {
+    padding: 10px;
+  }
+
+  .orders-title {
+    font-size: 20px;
+  }
+
+  .orders-table th,
+  .orders-table td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .order-item img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .delivery-button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}

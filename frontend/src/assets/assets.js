@@ -313,7 +313,7 @@ export const products = [
     price: 3200,
     image: lens3,
     category: "lens",
-    BaseCurve: "8.6 mm",
+    BaseCurve: "8.6mm",
     Diameter: "14.20mm",
     WaterContent: "62%",
     Packaging: "6 pieces of Lenses per box",

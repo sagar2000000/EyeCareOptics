@@ -1,0 +1,77 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #2c3e50;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: -300px; 
+  transition: left 0.3s ease-in-out;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+/* Sidebar Visible */
+.sidebar.show {
+  left: 0;
+}
+
+/* Sidebar Options */
+.sidebar-options {
+  margin-top: 50px;
+}
+
+.sidebar-option {
+  display: flex;
+  align-items: center;
+  padding: 15px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+  transition: background 0.2s;
+}
+
+.sidebar-option:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-option img {
+  width: 25px;
+  margin-right: 10px;
+}
+
+
+.sidebar-toggle {
+  position: fixed;
+  top: 60px;        
+  left: 10px;        
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1101;
+  transition: top 0.3s ease, left 0.3s ease;
+}
+
+/* Shift toggle slightly when sidebar is open */
+.sidebar.show ~ .sidebar-toggle {
+  top: 15px;
+  left: 240px; /* Sidebar (250px) + 20px spacing */
+}
+
+/* Overlay to close sidebar when clicking outside */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 900;
+}
