@@ -6,7 +6,7 @@ const Store = () => {
     <div className="main-store">
 
     
-    <center className='center1'>STORE IN NEPAL</center>
+    <center className='center1'>STORE IMAGES</center>
     <center className='center2'>Come see the best of MountOptics at our stores.</center>
     <div className='store-container'>
     
@@ -16,8 +16,7 @@ const Store = () => {
       
       <div className="store">
       <img src={index.image} alt="" />
-      <center className='center1'>{index.name}</center>
-      <center className='location'>{index.location}</center>
+      
      </div>
       )
      })}

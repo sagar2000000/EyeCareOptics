@@ -31,8 +31,8 @@ function App() {
       <Route path='/cart' element={<Cart/>}></Route>
       <Route path='/proceed-to-payment' element={<Proceed/>}></Route>
       <Route path='/payment-failure' element={<Failure/>}></Route>
-      <Route path='/' element={<Success/>}></Route>
-      payment-success
+      <Route path='/payment-success' element={<Success/>}></Route>
+      
       <Route path='/account' element={<Account/>}></Route>
       <Route path='/orders' element={<Order/>}></Route>
       <Route path='/cod-success' element={<SuccessUI/>}></Route>

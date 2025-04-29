@@ -73,19 +73,19 @@ export const assets = {
 
 export const stores = [
   {
-    name: "New Road Outlet",
+   
     image: store1,
-    location: "New Road ,opposite to Ranjana Complex",
+   
   },
   {
-    name: "Jhamsikhel Outlet",
+  
     image: store2,
-    location: "Jhamiskhel ,opposite to Timmur Resturant",
+   
   },
   {
-    name: "LakeSide Outlet",
+   
     image: store3,
-    location: "Lakeside, street number 23",
+   
   },
 ];
 
@@ -211,6 +211,7 @@ export const products = [
   },
   {
     _id: 9,
+    
     name: "Transparent Grey Square Eyeglass",
     price: 1800,
     image: eyeglass1A,
