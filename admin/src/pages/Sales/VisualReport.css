@@ -1,0 +1,72 @@
+.sales-report-container {
+  padding: 20px;
+  max-width: 90%;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.filters input, .filters select {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.charts-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.chart-box {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 20px;
+  background: #f9f9f9;
+}
+
+.chart-box:first-child {
+  margin-right: 1rem;
+}
+
+.lower-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.lower-section .chart-box {
+  width: 100%;
+  padding: 20px;
+  background: #f9f9f9;
+}
+
+.sales-report-header {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.net-profit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.net-profit p {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.net-profit h2 {
+  font-size: 30px;
+  color: #ff6600;
+}

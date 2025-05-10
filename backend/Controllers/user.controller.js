@@ -77,7 +77,18 @@ try {
   res.json({success:false,message:"Error"})
 }
 }
+const UserData = async (req, res) => {
+  try {
+   
+    const users = await UserModel.find({}, 'name email');
+    
+   
+    return res.json({success:true,users});
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return res.status(500).json({ message: "Error fetching user data", error: error.message });
+  }
+};
 
 
-
-export  {loginUser,registerUser}
+export  {loginUser,registerUser,UserData}

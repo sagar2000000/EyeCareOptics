@@ -10,6 +10,7 @@ function Add({ url }) {
   const [data, setData] = useState({
     name: "",
     price: "",
+    costPrice: "", // ✅ NEW
     category: "sunglass",
     FrameMaterial: "",
     TempleMaterial: "",
@@ -24,36 +25,51 @@ function Add({ url }) {
     stock: "",
   });
 
-  // Handle input changes
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     setData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Handle category change and reset irrelevant fields
   const onCategoryChange = (event) => {
     const category = event.target.value;
     setData({
       name: "",
       price: "",
+      costPrice: "", 
       category,
       stock: "",
       top: "false",
       ...(category === "lens"
         ? { BaseCurve: "", Diameter: "", WaterContent: "", Packaging: "" }
-        : { FrameMaterial: "", TempleMaterial: "", FrameShape: "", FrameSize: "", FrameColor: "" }),
+        : {
+            FrameMaterial: "",
+            TempleMaterial: "",
+            FrameShape: "",
+            FrameSize: "",
+            FrameColor: "",
+          }),
     });
     setImage(null);
     setImageB(null);
   };
 
-  // Handle form submission
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+
+    if (Number(data.price) < 0 || Number(data.costPrice) < 0) {
+      toast.error("Price and Purchase Price cannot be negative.");
+      return;
+    }
+
+    if (Number(data.stock) < 0) {
+      toast.error("Stock quantity cannot be negative.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("price", Number(data.price));
+    formData.append("costPrice", Number(data.costPrice)); // ✅ INCLUDE
     formData.append("category", data.category);
     formData.append("top", data.top === "true");
     formData.append("stock", Number(data.stock));
@@ -78,7 +94,7 @@ function Add({ url }) {
       const response = await axios.post(`${url}/product/add`, formData);
       if (response.data.success) {
         toast.success(response.data.message);
-        onCategoryChange({ target: { value: data.category } }); // Reset form
+        onCategoryChange({ target: { value: data.category } });
       } else {
         toast.error(response.data.message);
       }
@@ -110,7 +126,14 @@ function Add({ url }) {
           </div>
         )}
 
-        <input onChange={onChangeHandler} value={data.name} type="text" name="name" placeholder="Product Name (e.g., Classic Aviator Sunglasses)" required />
+        <input
+          onChange={onChangeHandler}
+          value={data.name}
+          type="text"
+          name="name"
+          placeholder="Product Name (e.g., Classic Aviator Sunglasses)"
+          required
+        />
 
         {/* Category Selection */}
         <div className="add-category-price">
@@ -124,7 +147,7 @@ function Add({ url }) {
           </div>
         </div>
 
-        {/* Fields for Eyeglass / Sunglass */}
+        {/* Eyeglass/Sunglass Fields */}
         {data.category !== "lens" && (
           <>
             <input onChange={onChangeHandler} value={data.FrameMaterial} type="text" name="FrameMaterial" placeholder="Frame Material (e.g., Metal, Plastic)" />
@@ -135,7 +158,7 @@ function Add({ url }) {
           </>
         )}
 
-        {/* Fields for Contact Lenses */}
+        {/* Lens Fields */}
         {data.category === "lens" && (
           <>
             <input onChange={onChangeHandler} value={data.BaseCurve} type="text" name="BaseCurve" placeholder="Base Curve (e.g., 8.6 mm)" required />
@@ -145,10 +168,34 @@ function Add({ url }) {
           </>
         )}
 
-        <input onChange={onChangeHandler} value={data.stock} type="number" name="stock" placeholder="Stock Quantity (e.g., 10)" required />
-        <input onChange={onChangeHandler} value={data.price} type="number" name="price" placeholder="Price (e.g., 2500)" required />
+        <input
+          onChange={onChangeHandler}
+          value={data.stock}
+          type="number"
+          name="stock"
+          placeholder="Stock Quantity (e.g., 10)"
+          required
+          min="0"
+        />
+        <input
+          onChange={onChangeHandler}
+          value={data.price}
+          type="number"
+          name="price"
+          placeholder="Selling Price (e.g., 2500)"
+          required
+          min="0"
+        />
+        <input
+          onChange={onChangeHandler}
+          value={data.costPrice}
+          type="number"
+          name="costPrice"
+          placeholder="Purchase Price / Cost Price (e.g., 1800)"
+          required
+          min="0"
+        />
 
-        {/* Top Product Selection */}
         <div>
           <p>Top Product</p>
           <select onChange={onChangeHandler} value={data.top} name="top">

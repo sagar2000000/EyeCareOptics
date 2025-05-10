@@ -10,7 +10,7 @@ import esewaLogo from "../../assets/esewa.png";
 import codLogo from "../../assets/cod.png";
 
 const Proceed = () => {
-  const { getTotalAmount, cartData ,userEmail,url,setCartData} = useContext(StoreContext);
+  const { getTotalAmount, cartData, userEmail, url, setCartData } = useContext(StoreContext);
   const totalAmount = getTotalAmount();
 
   const [name, setName] = useState("");
@@ -22,17 +22,18 @@ const Proceed = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
+    if (!/^9\d{9}$/.test(phone)) {
+      toast.error("Phone number must start with 9 and be exactly 10 digits.");
+      return;
+    }
+
+    setIsLoading(true);
     const orderId = uuidv4();
-    console.log(orderId);
-    console.log(paymentMethod)
 
     const items = Object.fromEntries(
       Object.entries(cartData).map(([productId, quantity]) => [productId, quantity])
     );
-    
-    console.log(userEmail)
 
     const orderData = {
       order_id: orderId,
@@ -42,41 +43,28 @@ const Proceed = () => {
       amount: totalAmount + 100,
       region,
       location,
-      orderedBy:userEmail,
+      orderedBy: userEmail,
       paymentMethod,
     };
-    console.log(orderData)
 
     try {
       if (paymentMethod === "eSewa") {
-        const response = await axios.post(
-         url+"/esewa/payment-initiate",
-          orderData
-        );
-
+        const response = await axios.post(`${url}/esewa/payment-initiate`, orderData);
         if (response.status === 200) {
-          toast.success("Redirecting to eSewa payment...", { position: "top-right" });
+          toast.success("Redirecting to eSewa payment...");
           window.location.href = response.data.url;
         }
       } else if (paymentMethod === "COD") {
-        const response = await axios.post(
-          url+"/cod/proceed-order",
-          orderData
-        );
-
+        const response = await axios.post(`${url}/cod/proceed-order`, orderData);
         if (response.status === 200) {
-          toast.success("Order placed successfully!", { position: "top-right" });
-          
-          window.location.href= "http://localhost:5173/cod-success"
-          
+          toast.success("Order placed successfully!");
+          window.location.href = "http://localhost:5173/cod-success";
         }
       }
     } catch (error) {
-      toast.error("Error processing order.", { position: "top-right" });
+      toast.error("Error processing order.");
     } finally {
       setIsLoading(false);
-     
-      
     }
   };
 
@@ -98,12 +86,18 @@ const Proceed = () => {
             type="tel"
             placeholder="Mobile Number"
             className="input-field"
-            pattern="[0-9]{10}"
+            pattern="9\d{9}"
+            title="Phone number must start with 9 and be 10 digits long"
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
           />
-          <select className="select-field" value={region} onChange={(e) => setRegion(e.target.value)} required>
+          <select
+            className="select-field"
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
+            required
+          >
             <option value="">Select Region</option>
             <option value="Inside Valley">Inside Valley</option>
             <option value="Outside Valley">Outside Valley</option>

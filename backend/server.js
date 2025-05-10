@@ -9,6 +9,7 @@ import { productRouter } from './Routes/product.route.js';
 import { orderRouter } from './Routes/order.route.js';
 import userRouter from './Routes/user.route.js';
 import cartRouter from './Routes/cart.route.js';
+import reportRouter from './Routes/salesReport.route.js';
 
 
 dotenv.config();
@@ -38,3 +39,6 @@ app.use('/user',userRouter)
 app.use('/cart',cartRouter)
 app.use("/order",orderRouter)
 app.use("/images",express.static("uploads"))
+
+app.use("/report", reportRouter);
+

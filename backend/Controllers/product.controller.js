@@ -9,11 +9,12 @@ const addProduct = async (req, res) => {
     let image_filename = req.files["image"] ? req.files["image"][0].filename : "";
     let image_filenameB = req.files["imageB"] ? req.files["imageB"][0].filename : "";
 
-    const { name, price, category, top, stock } = req.body;
+    const { name, price, category, top, stock ,costPrice} = req.body;
 
     let productData = {
       name,
       price,
+      costPrice,
       category,
       image: image_filename,
       imageB: image_filenameB,
@@ -157,4 +158,4 @@ const decreaseStock = async (req, res) => {
   }
 };
 
-export {addProduct,listProduct,removeProduct,increaseStock,decreaseStock}
+export  {addProduct,listProduct,removeProduct,increaseStock,decreaseStock}

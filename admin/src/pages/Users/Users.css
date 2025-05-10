@@ -1,0 +1,127 @@
+/* Users page container */
+.users-container {
+  padding: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  overflow-x: auto;
+}
+
+/* Title */
+.users-container h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Table container */
+.users-table-container {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 30px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+/* Table Styling */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.users-table th,
+.users-table td {
+  padding: 18px;
+  text-align: left;
+  font-size: 16px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+  transition: background-color 0.3s ease;
+}
+
+/* Header Style */
+.users-table th {
+  background-color: #4CAF50;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Table Row Styling */
+.users-table tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.users-table tr:hover {
+  background-color: #e2e8f0;
+  cursor: pointer;
+}
+
+.users-table td {
+  font-size: 14px;
+  color: #444;
+  padding: 15px;
+  transition: padding 0.2s ease;
+}
+
+.users-table td a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.users-table td a:hover {
+  text-decoration: underline;
+}
+
+/* Loading and error styling */
+.users-container .loading,
+.users-container .error {
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.users-container .loading {
+  font-weight: bold;
+}
+
+.users-container .error {
+  color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+  .users-table th, .users-table td {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .users-container h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .users-container {
+    padding: 20px;
+  }
+
+  .users-table th, .users-table td {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .users-container h2 {
+    font-size: 20px;
+  }
+}

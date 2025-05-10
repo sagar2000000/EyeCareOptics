@@ -107,7 +107,7 @@ export const products = [
   },
   {
     _id: 2,
-    name: "Matte Black Sporty Sunglass",
+    name: "Matte Black Sporty Ray Sunglass",
     price: 2200,
     image: sunglass2A,
     imageB: sunglass2,

@@ -29,13 +29,32 @@ const Account = () => {
 
   const onLogin = async (event) => {
     event.preventDefault();
-    let newUrl = url;
-    if (currState === 'Login') {
-      newUrl += '/user/login';
-    } else {
-      newUrl += '/user/register';
+  
+    // Client-side validation
+    const nameRegex = /^[A-Za-z\s]{2,}$/;
+    const emailRegex = /^[a-zA-Z][a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.(com|org|net|edu|gov|in)$/;
+    const passwordValid = data.password.length >= 5;
+  
+    if (currState === 'Register') {
+      if (!nameRegex.test(data.name)) {
+        toast.error("Name should only contain alphabets and be at least 2 characters.");
+        return;
+      }
     }
-
+  
+    if (!emailRegex.test(data.email)) {
+      toast.error("Enter a valid email (e.g., example@gmail.com, ending with .com, .org, etc.)");
+      return;
+    }
+  
+    if (!passwordValid) {
+      toast.error("Password must be at least 5 characters long.");
+      return;
+    }
+  
+    let newUrl = url;
+    newUrl += currState === 'Login' ? '/user/login' : '/user/register';
+  
     try {
       const response = await axios.post(newUrl, data);
       console.log(response.data);

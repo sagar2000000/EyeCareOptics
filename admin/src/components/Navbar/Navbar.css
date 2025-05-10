@@ -1,3 +1,4 @@
+/* Navbar container */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -13,7 +14,9 @@
   height: 33px;
 }
 
+/* Logo styling */
 .navbar .logo {
-  width: max(10%, 80px);
+  width: max(20%, 100px); /* Logo width is 80px minimum or 10% of the available space */
+  height: auto;  /* Maintain the aspect ratio */
+  display: block;  /* Remove any space below the image */
 }
-
